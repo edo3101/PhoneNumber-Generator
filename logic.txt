@@ -1,0 +1,42 @@
+import (
+	"fmt"
+	"math/rand"
+	// "strconv"
+	"time"
+)
+
+func main() {
+	var randomNumbers []string
+	var oddNumbers []string
+	var evenNumbers []string
+	for i := 0; i < 25; i++ {
+		phoneNumber := generateNumber()
+		randomNumbers = append(randomNumbers, phoneNumber)
+	}
+
+	for _, phoneNumber := range randomNumbers {
+		lastdigit := int(phoneNumber[len(phoneNumber)-1])
+		if lastdigit%2 == 0 {
+			evenNumbers = append(evenNumbers, phoneNumber)
+		} else {
+			oddNumbers = append(oddNumbers, phoneNumber)
+		}
+	}
+	fmt.Println(evenNumbers)
+	fmt.Println(oddNumbers)
+}
+
+func generateNumber() string {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+	return fmt.Sprintf("08%08d", r.Intn(100000000))
+}
+
+func randomProvider() string {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+	providerArray := []string{"XL", "Telkomsel", "Indosat"}
+
+	randomProvider := providerArray[r.Intn(len(providerArray))]
+	return randomProvider
+}
