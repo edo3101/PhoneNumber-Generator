@@ -49,14 +49,12 @@ func randomProvider() string {
 	return randomProvider
 }
 
-var Phone models.Phone
-
 func AutoGenerateNumber(c *gin.Context) {
 	for i := 0; i < 25; i++ {
 		phoneNumber := generateNumber()
 		provider := randomProvider()
 
-		Phone = models.Phone{
+		Phone := models.Phone{
 			PhoneNumber: phoneNumber,
 			Provider:    provider,
 		}
@@ -80,7 +78,7 @@ func AutoGenerateNumber(c *gin.Context) {
 func UpdateNumber(c *gin.Context) {
 	db := config.GetDB()
 	contentType := helpers.GetContentType(c)
-	Phone = models.Phone{}
+	Phone := models.Phone{}
 
 	PhoneID, _ := strconv.Atoi(c.Param("PhoneID"))
 
@@ -108,7 +106,7 @@ func UpdateNumber(c *gin.Context) {
 func DeleteNumber(c *gin.Context) {
 	db := config.GetDB()
 	contentType := helpers.GetContentType(c)
-	Phone = models.Phone{}
+	Phone := models.Phone{}
 
 	PhoneID, _ := strconv.Atoi(c.Param("PhoneID"))
 
@@ -136,15 +134,39 @@ func DeleteNumber(c *gin.Context) {
 func GetPhoneNumbers(c *gin.Context) {
 	db := config.GetDB()
 	contentType := helpers.GetContentType(c)
-	Phone := []models.Phone{}
+	Phones := []models.Phone{}
+
+	var ganjil []models.Phone
+	var genap []models.Phone
 
 	if contentType == appJSON {
-		c.ShouldBindJSON(&Phone)
+		c.ShouldBindJSON(&Phones)
 	} else {
-		c.ShouldBind(&Phone)
+		c.ShouldBind(&Phones)
 	}
 
-	err := db.Debug().Find(&Phone).Error
+	err := db.Debug().Find(&Phones).Error
+
+	for _, phone := range Phones {
+
+		number, err := strconv.Atoi(phone.PhoneNumber)
+		fmt.Println(number)
+		if err != nil {
+
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error":   "Bad Request",
+				"message": err.Error(),
+			})
+			return
+		}
+
+		if number%2 == 0 {
+			genap = append(genap, phone)
+		} else {
+			ganjil = append(ganjil, phone)
+		}
+	}
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Bad Request",
@@ -153,5 +175,39 @@ func GetPhoneNumbers(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, Phone)
+	c.JSON(http.StatusOK, gin.H{
+		"message":      "successfully getting the data...",
+		"ganjil":       ganjil,
+		"genap":        genap,
+		"phoneNumbers": Phones,
+	})
+}
+
+func GetPhoneNumberById(c *gin.Context) {
+	db := config.GetDB()
+	contentType := helpers.GetContentType(c)
+	Phone := models.Phone{}
+
+	PhoneID, _ := strconv.Atoi(c.Param("PhoneID"))
+
+	if contentType == appJSON {
+		c.ShouldBindJSON(&Phone)
+	} else {
+		c.ShouldBind(&Phone)
+	}
+
+	Phone.ID = uint(PhoneID)
+
+	err := db.Model(&Phone).Where("id = ?", PhoneID).Find(&Phone).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Bad Request",
+			"message": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Getting phone number...",
+		"data":    Phone,
+	})
 }

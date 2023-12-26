@@ -1,54 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <title></title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="css/style.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-</head>
-
-<body>
-  <form action="/phone/create" method="post">
-    <div class="card border-primary mb-3" style="max-width: 18rem;">
-      <div class="card-header bg-transparent text-center border-primary">Data No Handphone</div>
-      <div class="card-body text-success">
-        <div class="mb-3">
-          <label for="no_hp" class="form-label">No Handphone</label>
-          <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber">
-        </div>
-        <div class="mb-6">
-          <label for="Provider">Choose a Provider:</label>
-
-          <!-- The select element -->
-          <select id="Provider" name="Provider">
-            <!-- Options for the dropdown -->
-            <option value="XL">XL</option>
-            <option value="Telkomsel">Telkomsel</option>
-            <option value="Indosat">Indosat</option>
-          </select>
-          <script>
-            // Get the selected value using JavaScript
-            var dropdown = document.getElementById("Provider");
-            var selectedValue = dropdown.value;
-            console.log("Selected value:", selectedValue);
-          </script>
-
-          <div class="card-footer bg-transparent border-light">
-            <button type="submit">save</button>
-            <button type="submit">auto</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  <a href="/phone/auto" method="post">auto</a>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
