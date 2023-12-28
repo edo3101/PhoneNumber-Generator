@@ -80,9 +80,11 @@ export default function UserLogin() {
                 <span className="text-base">Login</span>
               </button>
             </div>
+            <button className="text-blue-600" onClick={() => { window.location.assign("/register") }}>create account</button>
           </div>
         </div>
       </div>
+
     </section>
   );
 }

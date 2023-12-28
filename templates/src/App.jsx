@@ -16,7 +16,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<UserLogin />} />
+          <Route path="/" element={<UserLogin />} />
           <Route path="/register" element={<FormRegister />} />
           <Route path="/create" element={<Home />} />
           <Route path="/auto" element={<GenerateNumberPage />} />

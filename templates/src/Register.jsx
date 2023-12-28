@@ -74,12 +74,14 @@ const FormRegister = () => {
             onChange={handlePass}
           />
           <button
-            className="w-full rounded-full lg:w-1/4 btn btn-accent lg:px-10 text-custom-primary"
+            className="w-full rounded-full lg:w-1/4 btn btn-accent lg:px-10 text-custom-primary mb-8"
             onClick={handleLogin}
           >
             <span className="text-base">Daftar</span>
           </button>
         </form>
+        <label>already have account?</label>
+        <button className="text-blue-600 ml-2" onClick={() => { window.location.assign("/") }}>login</button>
       </div>
     </section>
   );
