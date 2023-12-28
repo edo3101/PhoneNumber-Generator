@@ -12,7 +12,7 @@ const GenerateNumberPage = () => {
   };
   return (
     <>
-      <div class="card border-primary mb-3">
+      <div className="text-center mt-48 mb-3">
         <div class="card-header bg-transparent text-center border-primary">
           Data No Handphone
         </div>
@@ -22,6 +22,7 @@ const GenerateNumberPage = () => {
               No Handphone
             </label>
             <input
+              className="border-2 ml-2"
               type="text"
               value={phoneNumber}
               onChange={(e) => setPhone(e.target.value)}
@@ -30,15 +31,15 @@ const GenerateNumberPage = () => {
               name="PhoneNumber"
             />
           </div>
-          <div class="mb-6">
+          <div className="mt-2">
             <label for="Provider">Choose a Provider:</label>
-            <select id="Provider" name="Provider" value={selectedValue} onChange={handleDropdownChange}>
+            <select id="Provider" className="ml-2" name="Provider" value={selectedValue} onChange={handleDropdownChange}>
               <option value="XL">XL</option>
               <option value="Telkomsel">Telkomsel</option>
               <option value="Indosat">Indosat</option>
             </select>
 
-            <div class="card-footer bg-transparent border-light">
+            <div className="mt-2">
               <button
                 type="submit"
                 className="border-2 w-40"
@@ -59,6 +60,7 @@ const GenerateNumberPage = () => {
                 }}>save</button>
               <button
                 type="submit"
+                className="border-2 w-40 ml-2"
                 onClick={() => {
                   fetch(`http://localhost:5000/phone/auto`, {
                     method: "POST",

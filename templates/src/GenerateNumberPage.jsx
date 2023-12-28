@@ -28,77 +28,79 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Ganjil</th>
-              <th>Genap</th>
-            </tr>
-          </thead>
-          <tbody>
-            {newArray.map((value) => {
-              const ganjil = value[0];
-              console.log(ganjil);
-              const genap = value[1];
-              return (
-                <tr>
-                  <td>
-                    {ganjil?.PhoneNumber}
+      <div className="flex min-h-screen items-center justify-center bg-white">
+        <div className="p-6 overflow-y-scroll h-96 px-0">
+          <table className="w-[26rem] min-w-max table-auto">
+            <thead>
+              <tr>
+                <th>Ganjil</th>
+                <th>Genap</th>
+              </tr>
+            </thead>
+            <tbody>
+              {newArray.map((value) => {
+                const ganjil = value[0];
+                console.log(ganjil);
+                const genap = value[1];
+                return (
+                  <tr >
+                    <td>
+                      {ganjil?.PhoneNumber}
 
-                    {ganjil ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            navigate(`/phone/${ganjil?.ID}`);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => {
-                          fetch(`http://localhost:5000/phone/${ganjil?.ID}`, {
-                            method: "DELETE",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                          }).then(alert(`Phone Number : ${ganjil?.PhoneNumber} Deleted`))
-                            .then(() => {
-                              window.location.reload();
-                            });
-                        }}>Delete</button>
-                      </>
-                    ) : null}
-                  </td>
-                  <td>
-                    {genap?.PhoneNumber}
-                    {genap ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            navigate(`/phone/${genap?.ID}`);
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => {
-                          fetch(`http://localhost:5000/phone/${genap?.ID}`, {
-                            method: "DELETE",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                          }).then(alert(`Phone Number : ${genap?.PhoneNumber} Deleted`))
-                            .then(() => {
-                              window.location.reload();
-                            });
-                        }}>Delete</button>
-                      </>
-                    ) : null}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      {ganjil ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              navigate(`/phone/${ganjil?.ID}`);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button onClick={() => {
+                            fetch(`http://localhost:5000/phone/${ganjil?.ID}`, {
+                              method: "DELETE",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                            }).then(alert(`Phone Number : ${ganjil?.PhoneNumber} Deleted`))
+                              .then(() => {
+                                window.location.reload();
+                              });
+                          }}>Delete</button>
+                        </>
+                      ) : null}
+                    </td>
+                    <td>
+                      {genap?.PhoneNumber}
+                      {genap ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              navigate(`/phone/${genap?.ID}`);
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button onClick={() => {
+                            fetch(`http://localhost:5000/phone/${genap?.ID}`, {
+                              method: "DELETE",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                            }).then(alert(`Phone Number : ${genap?.PhoneNumber} Deleted`))
+                              .then(() => {
+                                window.location.reload();
+                              });
+                          }}>Delete</button>
+                        </>
+                      ) : null}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
