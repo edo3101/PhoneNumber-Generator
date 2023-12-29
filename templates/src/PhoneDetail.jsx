@@ -32,53 +32,62 @@ const PhoneDetail = () => {
 
   return (
     <>
-      <div className="flex flex-col">
-        <div className="inline-flex">
-          <label for="id">ID: {phone?.ID}</label>
+      <div className="h-screen flex items-center justify-center">
+        <div className="flex flex-col border-2 border-black rounded-md p-5">
+          <div className="inline-flex">
+            <label for="id">ID: {phone?.ID}</label>
+          </div>
+          <br />
+          <div className="inline-flex">
+            <label for="phoneNumber">Phone Number: </label>
+            <input
+              className="border-2"
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder={phone?.PhoneNumber}
+              ref={phoneNumberRef}
+            />
+          </div>
+          <div className="inline-flex">Provider: {phone?.Provider}
+            <label for="Provider">Provider</label>
+            <select id="Provider" name="Provider" value={selectedValue} onChange={handleDropdownChange}>
+              <option value="XL">XL</option>
+              <option value="Telkomsel">Telkomsel</option>
+              <option value="Indosat">Indosat</option>
+            </select>
+          </div>
+          <button
+            className="border-2 w-40"
+            onClick={() => {
+              const newNumber = phoneNumberRef.current.value;
+              fetch(`http://localhost:5000/phone/${params.phoneID}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  PhoneNumber: newNumber,
+                  Provider: selectedValue,
+                }),
+              }).then(alert(`Phone Number : ${phone?.PhoneNumber} Updated`))
+                .then(() => {
+                  window.location.reload();
+                });
+            }}
+          >
+            Edit
+          </button>
+          <button
+            className="border-2 w-40"
+            onClick={() => {
+              window.location.assign('/auto');
+            }}
+          >
+            Back
+          </button>
         </div>
-        <br />
-        <div className="inline-flex">
-          <label for="phoneNumber">Phone Number: </label>
-          <input
-            className="border-2"
-            type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            placeholder={phone?.PhoneNumber}
-            ref={phoneNumberRef}
-          />
-        </div>
-        <div className="inline-flex">Provider: {phone?.Provider}
-          <label for="Provider">Provider</label>
-          <select id="Provider" name="Provider" value={selectedValue} onChange={handleDropdownChange}>
-            <option value="XL">XL</option>
-            <option value="Telkomsel">Telkomsel</option>
-            <option value="Indosat">Indosat</option>
-          </select>
-        </div>
-        <button
-          className="border-2 w-40"
-          onClick={() => {
-            const newNumber = phoneNumberRef.current.value;
-            fetch(`http://localhost:5000/phone/${params.phoneID}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                PhoneNumber: newNumber,
-                Provider: selectedValue,
-              }),
-            }).then(alert(`Phone Number : ${phone?.PhoneNumber} Updated`))
-              .then(() => {
-                window.location.reload();
-              });
-          }}
-        >
-          EDIT!
-        </button>
       </div>
-
     </>
   );
 };

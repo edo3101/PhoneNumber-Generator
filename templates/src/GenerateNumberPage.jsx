@@ -28,13 +28,13 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="p-6 overflow-y-scroll h-96 px-0">
-          <table className="w-[26rem] min-w-max table-auto">
+      <div className="flex flex-col min-h-screen items-center justify-center bg-white">
+        <div className="overflow-y-scroll h-96 w-[32rem] px-0 border-2 mb-3 border-zinc-500 rounded-xl">
+          <table className="w-[26rem] min-w-max ml-4 table-auto">
             <thead>
               <tr>
-                <th>Ganjil</th>
-                <th>Genap</th>
+                <th className="pt-3">Ganjil</th>
+                <th className="border-l-2 pt-3">Genap</th>
               </tr>
             </thead>
             <tbody>
@@ -43,55 +43,61 @@ const Home = () => {
                 console.log(ganjil);
                 const genap = value[1];
                 return (
-                  <tr >
-                    <td>
+                  <tr className="p-3">
+                    <td className="p-2">
                       {ganjil?.PhoneNumber}
 
                       {ganjil ? (
                         <>
                           <button
+                            className="border-2 border-green-200 rounded-md p-1 m-1"
                             onClick={() => {
                               navigate(`/phone/${ganjil?.ID}`);
                             }}
                           >
                             Edit
                           </button>
-                          <button onClick={() => {
-                            fetch(`http://localhost:5000/phone/${ganjil?.ID}`, {
-                              method: "DELETE",
-                              headers: {
-                                "Content-Type": "application/json",
-                              },
-                            }).then(alert(`Phone Number : ${ganjil?.PhoneNumber} Deleted`))
-                              .then(() => {
-                                window.location.reload();
-                              });
-                          }}>Delete</button>
+                          <button
+                            className="border-2 border-red-400 rounded-md p-1"
+                            onClick={() => {
+                              fetch(`http://localhost:5000/phone/${ganjil?.ID}`, {
+                                method: "DELETE",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                              }).then(alert(`Phone Number : ${ganjil?.PhoneNumber} Deleted`))
+                                .then(() => {
+                                  window.location.reload();
+                                });
+                            }}>Delete</button>
                         </>
                       ) : null}
                     </td>
-                    <td>
+                    <td className="p-2 border-l-2 border-zinc-200">
                       {genap?.PhoneNumber}
                       {genap ? (
                         <>
                           <button
+                            className="border-2 border-green-200 rounded-md p-1 m-1"
                             onClick={() => {
                               navigate(`/phone/${genap?.ID}`);
                             }}
                           >
                             Edit
                           </button>
-                          <button onClick={() => {
-                            fetch(`http://localhost:5000/phone/${genap?.ID}`, {
-                              method: "DELETE",
-                              headers: {
-                                "Content-Type": "application/json",
-                              },
-                            }).then(alert(`Phone Number : ${genap?.PhoneNumber} Deleted`))
-                              .then(() => {
-                                window.location.reload();
-                              });
-                          }}>Delete</button>
+                          <button
+                            className="border-2 border-red-400 rounded-md p-1"
+                            onClick={() => {
+                              fetch(`http://localhost:5000/phone/${genap?.ID}`, {
+                                method: "DELETE",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                              }).then(alert(`Phone Number : ${genap?.PhoneNumber} Deleted`))
+                                .then(() => {
+                                  window.location.reload();
+                                });
+                            }}>Delete</button>
                         </>
                       ) : null}
                     </td>
@@ -101,6 +107,14 @@ const Home = () => {
             </tbody>
           </table>
         </div>
+        <button
+          className="border-2 w-40"
+          onClick={() => {
+            window.location.assign('/create');
+          }}
+        >
+          Back
+        </button>
       </div>
     </>
   );
