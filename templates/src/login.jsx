@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import axios from 'axios';
 import { useState } from 'react';
 
 export default function UserLogin() {
@@ -15,24 +15,18 @@ export default function UserLogin() {
     setPassword(pass);
   };
 
+
   const handleLogin = async () => {
-    const response = await fetch(`http://localhost:5000/user/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Email: email,
-        Password: password,
-      }),
+    const response = await axios.post(`http://localhost:5000/user/login`, {
+      email,
+      password,
     });
-    const token = response.body.token;
-    Cookies.set('auth_token', token);
+    const token = response.data.token;
+    localStorage.setItem('token', token)
     window.location.assign('/create');
   };
 
   const handleLogout = () => {
-    Cookies.remove('auth_token');
     window.location.assign('/auth/login');
   };
 

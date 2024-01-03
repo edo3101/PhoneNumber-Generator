@@ -7,6 +7,21 @@ const GenerateNumberPage = () => {
 
   const navigate = useNavigate();
 
+  const handleCreate = async () => {
+    await fetch(`http://localhost:5000/phone/create`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        PhoneNumber: phoneNumber,
+        Provider: selectedValue,
+      }),
+    });
+    alert(`Phone Number: ${phoneNumber} created`);
+    window.location.reload();
+  };
   const handleDropdownChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -44,21 +59,7 @@ const GenerateNumberPage = () => {
                 <button
                   type="submit"
                   className="border-2 w-40"
-                  onClick={() => {
-                    fetch(`http://localhost:5000/phone/create`, {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        PhoneNumber: phoneNumber,
-                        Provider: selectedValue,
-                      }),
-                    }).then(alert(`Phone Number: ${phoneNumber} created`))
-                      .then(() => {
-                        window.location.reload();
-                      });
-                  }}>save</button>
+                  onClick={handleCreate}>save</button>
                 <button
                   type="submit"
                   className="border-2 w-40 ml-2"
@@ -66,6 +67,7 @@ const GenerateNumberPage = () => {
                     fetch(`http://localhost:5000/phone/auto`, {
                       method: "POST",
                       headers: {
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`,
                         "Content-Type": "application/json",
                       },
                     }).then(() => {

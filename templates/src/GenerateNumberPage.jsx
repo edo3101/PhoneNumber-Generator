@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-async function fetchPhoneNumbers() {
-  const response = await fetch("http://localhost:5000/phone/auto");
-  const data = await response.json();
-
-  return data;
-}
+// async function fetchPhoneNumbers() {
+//   const response = await fetch("http://localhost:5000/phone/auto", {
+//     headers: {
+//       "Authorization": `Bearer ${localStorage.getItem('token')}`,
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   const data = await response.json();
+//
+//   return data;
+// }
 
 const Home = () => {
   const phoneNumbers = [];
@@ -17,11 +22,45 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPhoneNumbers().then((v) => {
-      setData(v);
-      setNewArray(zip(v.ganjil, v.genap));
-    });
+    const fetchData = async () => {
+      try {
+        // Replace 'your-api-endpoint' with the actual API endpoint you want to fetch data from
+        const apiUrl = 'http://localhost:5000/phone/auto';
+
+        // Replace 'your-bearer-token' with the actual bearer token you want to use for authentication
+        const bearerToken = localStorage.getItem('token');
+
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${bearerToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        setData(result);
+        setNewArray(zip(result.ganjil, result.genap));
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   fetchPhoneNumbers().then((v) => {
+  //     setData(v);
+  //     setNewArray(zip(v.ganjil, v.genap));
+  //   });
+  // }, []);
 
   const zip = (a, b) =>
     Array.from(Array(Math.max(b.length, a.length)), (_, i) => [a[i], b[i]]);
