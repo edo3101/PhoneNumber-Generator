@@ -1,20 +1,25 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 
-async function fetchPhoneNumberByID(id) {
-  const response = await fetch(`http://localhost:5000/phone/${id}`, {
-    method: "GET",
-  });
-  const data = await response.json();
-  console.log(data);
-
-  return data;
-}
+// async function fetchPhoneNumberByID(id) {
+//   const response = await fetch(`http://localhost:5000/phone/${id}`, {
+//     headers: {
+//       'Authorization': `Bearer ${bearerToken}`,
+//     },
+//     method: "GET",
+//   });
+//   const data = await response.json();
+//   console.log(data);
+//
+//   return data;
+// }
 
 const PhoneDetail = () => {
   const params = useParams();
 
   const phoneNumberRef = useRef();
+
+  const paramId = params.phoneID;
 
   const [phone, setPhone] = useState();
   const [selectedValue, setSelectedValue] = useState('');
@@ -24,11 +29,45 @@ const PhoneDetail = () => {
   };
 
   useEffect(() => {
-    fetchPhoneNumberByID(params.phoneID).then((v) => {
-      console.log(v);
-      setPhone(v.data);
-    });
+    const fetchData = async () => {
+      try {
+        const apiUrl = `http://localhost:5000/phone/${paramId}`;
+
+
+        const bearerToken = localStorage.getItem('token');
+
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${bearerToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        console.log(result);
+        setPhone(result.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  //
+  // useEffect(() => {
+  //   fetchPhoneNumberByID(params.phoneID).then((v) => {
+  //     console.log(v);
+  //     setPhone(v.data);
+  //   });
+  // }, []);
 
   return (
     <>
@@ -64,6 +103,7 @@ const PhoneDetail = () => {
               fetch(`http://localhost:5000/phone/${params.phoneID}`, {
                 method: "PUT",
                 headers: {
+                  'Authorization': `Bearer ${bearerToken}`,
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({

@@ -21,14 +21,12 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  const bearerToken = localStorage.getItem('token');
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Replace 'your-api-endpoint' with the actual API endpoint you want to fetch data from
         const apiUrl = 'http://localhost:5000/phone/auto';
 
-        // Replace 'your-bearer-token' with the actual bearer token you want to use for authentication
-        const bearerToken = localStorage.getItem('token');
 
         const response = await fetch(apiUrl, {
           method: 'GET',
@@ -102,6 +100,7 @@ const Home = () => {
                               fetch(`http://localhost:5000/phone/${ganjil?.ID}`, {
                                 method: "DELETE",
                                 headers: {
+                                  'Authorization': `Bearer ${bearerToken}`,
                                   "Content-Type": "application/json",
                                 },
                               }).then(alert(`Phone Number : ${ganjil?.PhoneNumber} Deleted`))
@@ -130,6 +129,7 @@ const Home = () => {
                               fetch(`http://localhost:5000/phone/${genap?.ID}`, {
                                 method: "DELETE",
                                 headers: {
+                                  'Authorization': `Bearer ${bearerToken}`,
                                   "Content-Type": "application/json",
                                 },
                               }).then(alert(`Phone Number : ${genap?.PhoneNumber} Deleted`))
